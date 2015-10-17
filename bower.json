@@ -1,0 +1,20 @@
+{
+    "name": "workspace",
+    "version": "0.0.0",
+    "authors": [
+        "Davi Pereira <xdavipereira@gmail.com>"
+    ],
+    "license": "MIT",
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ],
+    "dependencies": {
+        "materialize": "~0.97.1",
+        "angular": "~1.5.0-build.4325+sha.ad4296d",
+        "angular-auto-validate": "~1.18.17"
+    }
+}
