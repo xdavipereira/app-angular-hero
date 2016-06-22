@@ -42,7 +42,40 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 					controller: 'PersonCreateController'
 				}
 			}
-		});
+		})
+    	.state('tab', {
+            abstract: true, //não permite acessar diretamente esse view, deve ser um child
+            views: {
+                "tab1": {
+                    templateUrl: 'templates/list.html',
+					controller: 'PersonCreateController'
+                },
+                'tab3': {
+					templateUrl: 'templates/edit.html',
+					controller: 'PersonListController'
+				}
+            }
+        })
+        .state('edittab', {
+        parent: 'tab',
+        url: '/tab3',
+        views: {
+            'tab3': {
+					templateUrl: 'templates/list.html',
+					controller: 'PersonListController'
+            }
+        }
+        })
+        .state('listab', {
+        parent: 'tab',
+        url: '/tab1',
+        views: {
+            'tab1': {
+					templateUrl: 'templates/edit.html',
+					controller: 'PersonCreateController'
+            }
+        }
+        });
 
 	$urlRouterProvider.otherwise('/');
 });
@@ -75,14 +108,14 @@ app.factory("Contact", function ($resource) {
 
 app.directive('ccSpinner', function(){
    return {
- 
+
       'restrict': 'E',
       'templateUrl': 'templates/spinner.html',
       'scope': {
           'isLoading': '=',
           'message': '@'
       }
-   } 
+   }
 });
 
 app.directive('ccCard', function () {
@@ -106,25 +139,25 @@ app.directive('ccCard', function () {
 });
 
 app.filter('defaultImage', function(){
-   
+
    return function(input, param){
-       
+
        if(!input){
            return 'app/css/avatar.png';
        }
-       
+
        return input;
-       
+
    }
-    
+
 });
 
 
 
 app.controller('PersonDetailController', function ($scope, $stateParams,$state,ContactService) {
-   
- 
- $scope.mode = "Edit"  
+
+
+ $scope.mode = "Edit"
     $scope.contacts = ContactService;
 
 	$scope.contacts.selectedPerson = $scope.contacts.getPerson($stateParams.email);
@@ -134,7 +167,7 @@ app.controller('PersonDetailController', function ($scope, $stateParams,$state,C
 			$state.go("list");
 		});
     }
-    
+
     $scope.remove = function(){
         $scope.contacts.removeContact($scope.contacts.selectedPerson).then(function () {
 			$state.go("list");
@@ -145,17 +178,17 @@ app.controller('PersonDetailController', function ($scope, $stateParams,$state,C
 
 
 app.controller('PersonCreateController', function ($scope,$state,ContactService) {
-    
+
     $scope.mode = "Create"
       $scope.contacts = ContactService;
-      
+
       $scope.save = function(){
         $scope.contacts.createContact($scope.contacts.selectedPerson)
             .then(function (){
                 $state.go("list");
         });
     };
-      
+
 });
 
 
@@ -165,6 +198,7 @@ app.controller('PersonListController', function ($scope, $modal ,ContactService)
     $scope.search = "";
     $scope.order = "email";
     $scope.contacts = ContactService;
+    $scope.mode = "List"
 
     $scope.loadMore = function () {
         console.log('LoadMore');
@@ -226,7 +260,7 @@ app.service('ContactService', function (Contact, $rootScope,$q, toaster) {
             Contact.get(params, function(data){
                 console.log(data);
                 angular.forEach(data.results, function(person){
-                    
+
                     self.persons.push(new Contact(person));
                 });
 
@@ -247,7 +281,7 @@ app.service('ContactService', function (Contact, $rootScope,$q, toaster) {
         'updateContact': function(person){
                         var d = $q.defer();
             console.log("Service Called Update");
-            
+
                 self.isSaving = true;
             person.$update().then(function (){
                 self.isSaving = false;
@@ -282,18 +316,18 @@ app.service('ContactService', function (Contact, $rootScope,$q, toaster) {
                 d.resolve();
                 toaster.pop('sucess', 'Created '+ person.name);
             });
-        
+
             return d.promise;
         },
         'watchFilters': function(){
             $rootScope.$watch(function(){
-             return self.search;   
+             return self.search;
             }, function (newVal){
              if(angular.isDefined(newVal)){
                  self.doSearch();
-             }   
-            }); 
-            
+             }
+            });
+
             $rootScope.$watch(function() {
                 return self.ordering;
             }, function(newVal) {

@@ -56,3 +56,32 @@ body {
     font-size: 18px; }
   .sortables span:hover {
     color: #002a80; }
+	.tabs-nav {padding: 20px 0 0; list-style: none;}
+	.tabs-nav li {display: inline;}
+	.tabs-nav a {
+		display:inline-block;
+		border: 1px solid #ddd;
+		border-bottom: none;
+		padding: 15px;
+		cursor: pointer;
+		border-radius: 5px 5px 0 0;
+		font-size: 14px;
+		color: #fff;
+		background: rgba(20, 144, 64, 0.7);
+	}
+
+	.tabs-nav .active {
+		background: #fff;
+		color: rgba(20, 144, 64, 0.7);
+		border-bottom: 1px solid #fff;
+		margin-bottom: -1px;
+	}
+
+	.tab-content {
+		border: 1px solid #ddd;
+		padding: 20px;
+	}
+
+	p {
+		margin-bottom: 15px;
+	}

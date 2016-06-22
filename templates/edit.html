@@ -5,14 +5,15 @@
 		<div class="panel panel-default" >
 			<div class="panel-heading" >
 
-				{{mode}}
+				<a >{{mode}}</a>
 
 				<div class="pull-right" >
 					<button class="btn btn-primary btn-sm"
 					        ladda="contacts.isSaving"
 					        type="submit" >
-						<span ng-if="mode == 'Edit'" >Save</span >
-						<span ng-if="mode == 'Create'" >Create</span >
+						<span ng-if="mode == 'Edit'" ></span >
+
+						<span ng-if="mode == 'Create'">Create</span >
 					</button >
 
 					<button class="btn btn-danger btn-sm"
